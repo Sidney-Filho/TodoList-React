@@ -1,4 +1,3 @@
-import { useState } from 'react'
 import check from '../assets/check.svg'
 
 interface TaskProps {
@@ -11,12 +10,9 @@ interface TaskProps {
 
 function Task({text, isComplete, index, onDeleteTask, onCompleteTask}: TaskProps) {
 
-  const [isChecked, setIsChecked] = useState(isComplete)
 
   function handleCheckboxChange() {
-    const newIsChecked = !isChecked
-    setIsChecked(newIsChecked)
-    onCompleteTask(index, newIsChecked)
+    onCompleteTask(index, !isComplete)
   }
 
   return(
@@ -25,11 +21,11 @@ function Task({text, isComplete, index, onDeleteTask, onCompleteTask}: TaskProps
         <div className="flex items-center justify-center gap-4">
           <button 
             onClick={handleCheckboxChange}
-            className={`h-5 w-5 border-2 border-blue-500 rounded-full hover:bg-darkBlue  cursor-pointer ${isChecked ? 'border-darkPurple bg-darkPurple hover:bg-purple300 hover:border-purple300' : ''}`}
+            className={`h-5 w-5 border-2 border-blue-500 rounded-full hover:bg-darkBlue  cursor-pointer ${isComplete ? 'border-darkPurple bg-darkPurple hover:bg-purple300 hover:border-purple300' : ''}`}
           >
-            {isChecked && <img src={check} alt='Check icone' className='w-3 h-3 m-auto'/>}
+            {isComplete && <img src={check} alt='Check icone' className='w-3 h-3 m-auto'/>}
           </button>
-          <p className={`text-base font-normal text-gray100 max-w-4xl break-all ${isChecked ? 'line-through text-gray300' : ''}`}>
+          <p className={`text-base font-normal text-gray100 max-w-4xl break-all ${isComplete ? 'line-through text-gray300' : ''}`}>
             {text}
           </p>
         </div>

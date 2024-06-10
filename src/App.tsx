@@ -52,13 +52,20 @@ function App() {
     setCreatedTasks(prevCreatedTasks => prevCreatedTasks - 1)
   }
 
-  function handleCompleteTask(id: number, isComplete: boolean) {
-    setTasks(prevTasks => 
-      prevTasks.map((task,index) => (
-        index === id ? {...task, isComplete} : task
-      ))
-    )
-    setCompletedTasks(prevCompletedTasks => isComplete ? prevCompletedTasks + 1 : prevCompletedTasks - 1)
+  function handleCompleteTask(index: number) {
+    const updatedTasks = tasks.map((task, taskIndex) => {
+      if(taskIndex === index) {
+        const updatedTask = {...task, isComplete: !task.isComplete}
+        if(updatedTask.isComplete) {
+          setCompletedTasks(prevCompletedTasks => prevCompletedTasks + 1)
+        } else {
+          setCompletedTasks(prevCompletedTasks => prevCompletedTasks - 1)
+        }
+        return updatedTask
+      }
+      return task
+    })
+    setTasks(updatedTasks)
   }
 
 
@@ -112,7 +119,7 @@ function App() {
         text={task.text}
         isComplete={task.isComplete}
         onDeleteTask={() => handleDeleteTask(index)}
-        onCompleteTask={(index:number, isComplete: boolean) => handleCompleteTask(index, isComplete)}
+        onCompleteTask={() => handleCompleteTask(index)}
         index={index}
       />
     )) }
